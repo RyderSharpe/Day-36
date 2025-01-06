@@ -1,30 +1,50 @@
 import requests
 
+
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
 API = "9ZLZ5FCJ8XKKE2CS"
 
-## STEP 1: Use https://www.alphavantage.co
-# When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
-
+# STEP 1: Use Alpha Vantage API
 my_parameters = {
     "function": "TIME_SERIES_DAILY",  # Request daily time series data
-    "symbol": "TSLA",  # Tesla stock ticker symbol
-    "apikey": "9ZLZ5FCJ8XKKE2CS",  # Your API key
+    "symbol": STOCK,  # Stock ticker symbol
+    "apikey": API,  # Your API key
     "outputsize": "compact",  # Get 100 data points
     "datatype": "json"  # Response in JSON format
 }
 
-# replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
-# url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=9ZLZ5FCJ8XKKE2CS'
+## STEP 1: Use https://www.alphavantage.co
+# When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
+
 url = 'https://www.alphavantage.co/query'
 r = requests.get(url, params=my_parameters)
 data = r.json()
+# print(data)
 
-print(data)
+# Check if the response contains the "Time Series (Daily)" data
+if "Time Series (Daily)" in data:
+    # Get the daily time series data
+    time_series = data["Time Series (Daily)"]
+    dates = list(time_series.keys())
+    # print(time_series)
+    # print(dates)
 
-# open = data["Time Series (Daily)"][0]["open"]
-# print(open)
+
+
+    # Get the two most recent trading days
+    yesterday = dates[0]
+    day_before_yesterday = dates[1]
+    # print(yesterday)
+    # print(day_before_yesterday)
+
+    # Consolidated ↓↓↓↓↓
+    # print(r.json().get("Time Series (Daily)").get(list(r.json().get("Time Series (Daily)").keys())[0]))
+
+
+
+
+
 
 
 
